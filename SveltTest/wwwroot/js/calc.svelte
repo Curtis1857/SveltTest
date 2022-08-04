@@ -2,7 +2,7 @@
 <script>
     let sum;
     let f = 1;
-    let s = 3;
+    let s = 12;
 
     function getSum(ff, ss){
          console.log(ff);
@@ -22,7 +22,7 @@
     <input bind:value={f} />
     <input bind:value={s}  />
     <div>
-    {sum}
+    {sum} t
     </div>
 </main>
 

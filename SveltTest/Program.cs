@@ -1,9 +1,21 @@
+//using var parcel = new NpmScript();
+
+//await parcel.RunAsync(Console.WriteLine);
+
+//Console.WriteLine(parcel.HasServer
+//    ? $"From ASP.NET Core. Parcel is started ({parcel.HasServer}) @ {parcel.Url} at process: {parcel.ProcessId}"
+//    : "Script has executed.");
+
+//await Task.Delay(TimeSpan.FromSeconds(4));
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
