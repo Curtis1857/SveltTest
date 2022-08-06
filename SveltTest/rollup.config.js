@@ -1,27 +1,80 @@
 ﻿import svelte from 'rollup-plugin-svelte';
-import resolve from '@rollup/plugin-node-resolve';
+//import commonjs from '@rollup/plugin-commonjs';
+//import resolve from '@rollup/plugin-node-resolve';
+//import livereload from 'rollup-plugin-livereload';
+//import { terser } from 'rollup-plugin-terser';
+import css from 'rollup-plugin-css-only';
+import json from '@rollup/plugin-json';
+
+function serve() {
+    let server;
+
+    function toExit() {
+        if (server) server.kill(0);
+    }
+
+    return {
+        writeBundle() {
+            if (server) return;
+            server = require('child_process').spawn('dotnet', ['watch', 'run'], {
+                stdio: ['ignore', 'inherit', 'inherit'],
+                shell: true
+            });
+
+            process.on('SIGTERM', toExit);
+            process.on('exit', toExit);
+        }
+    };
+}
 
 export default {
-    // This `main.js` file we wrote
-    input: 'wwwroot/js/main.js',
-    output: {
-        // The destination for our bundled JavaScript
-        file: 'wwwroot/js/build/bundle.js',
-        // Our bundle will be an Immediately-Invoked Function Expression
-        format: 'iife',
-        // The IIFE return value will be assigned into a variable called `app`
-        name: 'app',
-    },
-    plugins: [
-        svelte({
-            // Tell the svelte plugin where our svelte files are located
-            include: 'wwwroot/**/*.svelte',
-            emitCss: false,
-            compilerOptions: {
-                customElement: true
-            }
-        }),
-        // Tell any third-party plugins that we're building for the browser
-        resolve({ browser: true }),
-    ]
+	input: 'App/main.js',
+	output: {
+		sourcemap: true,
+		format: 'iife',
+		name: 'app',
+		file: 'wwwroot/build/bundle.js'
+	},
+	plugins: [
+		json(),
+		svelte({
+			include: 'App/*.svelte',
+			compilerOptions: {
+				// enable run-time checks when not in production
+				dev: true
+			}
+		}),
+		// we'll extract any component CSS out into
+		// a separate file - better for performance
+		css({ output: 'bundle.css' }),
+
+		// If you have external dependencies installed from
+		// npm, you'll most likely need these plugins. In
+		// some cases you'll need additional configuration -
+		// consult the documentation for details:
+		// https://github.com/rollup/plugins/tree/master/packages/commonjs
+		//resolve({
+		//	browser: true,
+		//	dedupe: ['svelte']
+		//}),
+		//commonjs(),
+
+		// In dev mode, call `npm run start` once
+		// the bundle has been generated
+		//!production && serve(),
+		serve(),
+
+		// Watch the `public` directory and refresh the
+		// browser on changes when not in production
+		//!production && livereload('wwwroot'),
+		//livereload('wwwroot'),
+
+		// If we're building for production (npm run build
+		// instead of npm run dev), minify
+		//production && terser()
+		//terser()
+	],
+	watch: {
+		clearScreen: false
+	}
 };
