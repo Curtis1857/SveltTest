@@ -3,7 +3,7 @@ import resolve from '@rollup/plugin-node-resolve';
 
 export default {
     // This `main.js` file we wrote
-    input: 'wwwroot/js/main.js',
+    input: 'App/main.js',
     output: {
         // The destination for our bundled JavaScript
         file: 'wwwroot/js/build/bundle.js',
@@ -15,7 +15,7 @@ export default {
     plugins: [
         svelte({
             // Tell the svelte plugin where our svelte files are located
-            include: 'wwwroot/**/*.svelte',
+            include: 'App/*.svelte',
             emitCss: false,
             compilerOptions: {
                 customElement: true

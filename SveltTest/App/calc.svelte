@@ -7,10 +7,10 @@
     function getSum(ff, ss){
          console.log(ff);
          console.log(ss);
-         if(ff && ss){
+         if(ff && ss ){
              var nu = Number(ff) + Number(ss);
              console.log(nu);
-             return nu;
+             return nu / 2;
          } else return 0;
     }
 

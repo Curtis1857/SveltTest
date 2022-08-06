@@ -5,9 +5,8 @@
 </script>
 
 <main>
-    <h1 id="{id}">Hello {name}!</h1>
+    <h1 id="{id}">Hel  cool {name}!</h1>
 </main>
-
 <style>
     h1 {
         font-size: 5em;

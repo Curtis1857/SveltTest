@@ -1,12 +1,8 @@
-//using var parcel = new NpmScript();
+using SveltTest;
 
-//await parcel.RunAsync(Console.WriteLine);
 
-//Console.WriteLine(parcel.HasServer
-//    ? $"From ASP.NET Core. Parcel is started ({parcel.HasServer}) @ {parcel.Url} at process: {parcel.ProcessId}"
-//    : "Script has executed.");
 
-//await Task.Delay(TimeSpan.FromSeconds(4));
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,9 +19,16 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+} else
+{
+    //cant call devlive in csproj target because --watch is always running
+    //resulting in build to never finish 
+    using var parcel = new NpmScript("devlive");
+    await parcel.RunAsync(Console.WriteLine);
 }
 
 app.UseHttpsRedirection();
+app.UseDefaultFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
