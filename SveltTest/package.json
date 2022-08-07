@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "build": "rollup -c rollup.config.js",
-    "dev": "rollup -c rollup.config.js"
+    "dev": "rollup -c rollup.config.js",
+    "devlive": "rollup -c rollup.config.js --watch"
   },
   "dependencies": {
     "watch": "^1.0.2"
